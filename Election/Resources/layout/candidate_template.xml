@@ -30,7 +30,8 @@
                 android:layout_gravity="left"
                 android:layout_marginRight="3dp"
                 android:text="TextView"
-                android:textSize="16dp">
+                android:textSize="16dp"
+                android:textColor="#000000">
             </TextView>
             <TextView
                 android:id="@+id/candidateFirstName"
@@ -39,7 +40,8 @@
                 android:layout_gravity="left"
                 android:layout_marginRight="3dp"
                 android:text="TextView"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:textColor="#000000"/>
             <TextView
                 android:id="@+id/candidateThirdName"
                 android:layout_width="wrap_content"
@@ -47,7 +49,8 @@
                 android:layout_gravity="left"
                 android:layout_marginRight="20dp"
                 android:text="TextView"
-                android:textSize="16dp"/>
+                android:textSize="16dp"
+                android:textColor="#000000"/>
         </LinearLayout>
         <TextView
             android:id="@+id/candidateVotes"
@@ -55,7 +58,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginRight="20dp"
-            android:text="TextView">
+            android:text="TextView"
+            android:textColor="#000000">
         </TextView>
         <TextView
             android:id="@+id/candidatePercent"
@@ -63,7 +67,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="left"
             android:layout_marginRight="20dp"
-            android:text="TextView">
+            android:text="TextView"
+            android:textColor="#000000">
         </TextView>
 
 

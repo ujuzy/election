@@ -1,25 +1,18 @@
-﻿using System;
-using Android.App;
+﻿using Android.App;
 using Android.OS;
-using Android.Runtime;
-using Android.Support.Design.Widget;
 using Android.Support.V7.App;
-using Android.Views;
 using Android.Widget;
 using Newtonsoft.Json;
 using Xamarin.Essentials;
-using System.Net.Http;
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
 
 namespace Election
 {
-    [Activity(Label = "@string/app_name", Theme = "@style/AppTheme.NoActionBar", MainLauncher = true)]
+    [Activity(Label = "@string/app_name", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
-        //ScrollView mainScrollLayout;
-
         List<CandidateData> listOfCandidates;
 
         private int m_TotalVotes = 0;

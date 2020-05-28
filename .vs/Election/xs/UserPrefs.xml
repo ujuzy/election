@@ -1,15 +1,9 @@
 ﻿<Properties StartupConfiguration="{09B04830-3DED-42F5-9274-C13D946A70E2}|Default">
   <MonoDevelop.Ide.ItemProperties.Election AndroidDesignerPreferredTheme="AppTheme" AndroidDesignerPreferredDevice="Nexus 4" PreferredExecutionTarget="Android.711KPZK0818901" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Election/CustomAdapter.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Election/MainActivity.cs">
     <Files>
-      <File FileName="Election/MainActivity.cs" Line="45" Column="1" />
-      <File FileName="Election/CustomAdapter.cs" Line="24" Column="29" />
-      <File FileName="Election/Resources/layout/activity_main.xml" Line="1" Column="1" />
-      <File FileName="Election/Resources/layout/candidate_template.xml" Line="1" Column="1" />
-      <File FileName="Election/Resources/layout/content_main.xml" Line="1" Column="1" />
-      <File FileName="Election/Properties/AndroidManifest.xml" />
-      <File FileName="Election/Resources/values/strings.xml" Line="1" Column="1" />
-      <File FileName="Election/CandidateData.cs" Line="1" Column="1" />
+      <File FileName="Election/SplashActivity.cs" Line="37" Column="1" />
+      <File FileName="Election/MainActivity.cs" Line="15" Column="6" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -18,10 +12,9 @@
             <Node name="Election" expanded="True">
               <Node name="Properties" expanded="True" />
               <Node name="Resources" expanded="True">
-                <Node name="layout" expanded="True" />
+                <Node name="layout" expanded="True" selected="True" />
                 <Node name="values" expanded="True" />
               </Node>
-              <Node name="CustomAdapter.cs" selected="True" />
             </Node>
           </Node>
         </State>
