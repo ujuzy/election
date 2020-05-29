@@ -36,6 +36,8 @@ namespace Election
 
             var listData = FindViewById<RecyclerView>(Resource.Id.recyclerView);
 
+            listData.AddItemDecoration(new DividerItemDecoration(listData.Context, DividerItemDecoration.Vertical));
+
             RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
             listData.SetLayoutManager(layoutManager);
 

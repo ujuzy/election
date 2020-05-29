@@ -84,7 +84,7 @@ namespace Election
             var Votes = row.FindViewById<TextView>(Resource.Id.candidateVotes);
             var Percent = row.FindViewById<TextView>(Resource.Id.candidatePercent);
             var Photo = row.FindViewById<ImageView>(Resource.Id.candidatePhoto);
-            var CheckBox = row.FindViewById<ImageView>(Resource.Id.checkbox);
+            var CheckBox = row.FindViewById<ImageButton>(Resource.Id.checkbox);
 
             MyView view = new MyView(row)
             {

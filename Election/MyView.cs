@@ -15,7 +15,7 @@ namespace Election
         public TextView percent { get; set; }
 
         public ImageView photo { get; set; }
-        public ImageView checkbox { get; set; }
+        public ImageButton checkbox { get; set; }
 
         public MyView(View view) : base(view)
         {
