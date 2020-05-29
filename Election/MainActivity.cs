@@ -2,8 +2,11 @@
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
+
 using Newtonsoft.Json;
+
 using Xamarin.Essentials;
+
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
@@ -34,6 +37,33 @@ namespace Election
             var adapter = new CustomAdapter(this, listOfCandidates);
 
             listData.Adapter = adapter;
+
+            listData.ItemClick += ItemClick;
+        }
+
+        private void ItemClick(object sender, AdapterView.ItemClickEventArgs e)
+        {
+            CandidateDetail.Id = (int)e.Id;
+
+            foreach(var i in listOfCandidates)
+            {
+                if (CandidateDetail.Id == i.Id)
+                {
+                    CandidateDetail.FirstName = i.FirstName;
+                    CandidateDetail.SecondName = i.SecondName;
+                    CandidateDetail.ThirdName = i.ThirdName;
+
+                    CandidateDetail.Image = i.Image;
+
+                    CandidateDetail.Party = i.Party;
+
+                    CandidateDetail.Descriptions = i.Descriptions;
+
+                    break;
+                }
+            }
+
+            StartActivity(new Android.Content.Intent(Application.Context, typeof(DetailActivity)));
         }
 
         private List<CandidateData> LoadData()

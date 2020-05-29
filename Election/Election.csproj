@@ -65,6 +65,8 @@
     <Compile Include="CandidateData.cs" />
     <Compile Include="CustomAdapter.cs" />
     <Compile Include="SplashActivity.cs" />
+    <Compile Include="DetailActivity.cs" />
+    <Compile Include="CandidateDetail.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -118,6 +120,10 @@
       <Generator></Generator>
     </AndroidResource>
     <AndroidResource Include="Resources\layout\activity_splash.xml">
+      <SubType></SubType>
+      <Generator></Generator>
+    </AndroidResource>
+    <AndroidResource Include="Resources\layout\activity_detail.xml">
       <SubType></SubType>
       <Generator></Generator>
     </AndroidResource>

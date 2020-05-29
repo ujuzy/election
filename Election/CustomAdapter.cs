@@ -1,18 +1,10 @@
-﻿using System;
-using Android.App;
-using Android.OS;
-using Android.Runtime;
-using Android.Support.Design.Widget;
-using Android.Support.V7.App;
+﻿using Android.App;
 using Android.Views;
 using Android.Widget;
-using Newtonsoft.Json;
-using Xamarin.Essentials;
-using System.Net.Http;
+using Android.Graphics;
+
 using System.Collections.Generic;
 using System.Net;
-using System.IO;
-using Android.Graphics;
 
 namespace Election
 {
