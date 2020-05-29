@@ -36,7 +36,7 @@ namespace Election
 
             backButton.Click += (sender, args) =>
             {
-                StartActivity(new Android.Content.Intent(Application.Context, typeof(MainActivity)));
+                OnBackPressed();
             };
         }
 

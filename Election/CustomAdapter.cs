@@ -1,61 +1,101 @@
-﻿using Android.App;
-using Android.Views;
-using Android.Widget;
-using Android.Graphics;
-
+﻿using System;
 using System.Collections.Generic;
 using System.Net;
+using Android.App;
+using Android.Content;
+using Android.Graphics;
+using Android.Support.V7.Widget;
+using Android.Views;
+using Android.Widget;
 
 namespace Election
 {
-    public class CustomAdapter : BaseAdapter
+    public class CustomAdapter : RecyclerView.Adapter
     {
-        private Activity activity;
-        private List<CandidateData> candidates;
+        private List<CandidateData> m_Candidates;
+        private RecyclerView m_RecyclerView;
+        private Context m_Context;
 
-        public CustomAdapter(Activity activity, List<CandidateData> candidates)
+        public event EventHandler<int> ItemClick;
+
+        public CustomAdapter(Context context, List<CandidateData> candidates, RecyclerView recyclerView)
         {
-            this.activity = activity;
-            this.candidates = candidates;
+            m_Candidates = candidates;
+            m_RecyclerView = recyclerView;
+            m_Context = context;
         }
 
-        public override int Count
+        public override int ItemCount
         {
-            get { return candidates.Count; }
+            get { return m_Candidates.Count; }
         }
 
-        public override Java.Lang.Object GetItem(int position)
+        public override void OnBindViewHolder(RecyclerView.ViewHolder holder, int position)
         {
-            return null;
+            MyView myHolder = holder as MyView;
+
+            myHolder.firstName.Text = m_Candidates[position].FirstName;
+            myHolder.secondName.Text = m_Candidates[position].SecondName;
+            myHolder.thirdName.Text = m_Candidates[position].ThirdName;
+            myHolder.votes.Text = "Голосов: " + m_Candidates[position].Votes;
+            myHolder.percent.Text = "Процент: " + m_Candidates[position].Percent + "%";
+            myHolder.photo.SetImageBitmap(GetImageBitmapFromUrl("https://adlibtech.ru/elections/upload_images/" + m_Candidates[position].Image));
+            myHolder.checkbox.SetImageResource(Resource.Drawable.checkbox_empty);
+
+            myHolder.mainView.Click -= Candidate_Click;
+            myHolder.mainView.Click += Candidate_Click;
         }
 
-        public override long GetItemId(int position)
+        private void Candidate_Click(object sender, EventArgs e)
         {
-            return candidates[position].Id;
+            int position = m_RecyclerView.GetChildAdapterPosition((View)sender);
+            CandidateData candidateClicked = m_Candidates[position];
+
+            CandidateDetail.Id = candidateClicked.Id;
+
+            foreach (var i in m_Candidates)
+            {
+                if (CandidateDetail.Id == i.Id)
+                {
+                    CandidateDetail.FirstName = i.FirstName;
+                    CandidateDetail.SecondName = i.SecondName;
+                    CandidateDetail.ThirdName = i.ThirdName;
+
+                    CandidateDetail.Image = i.Image;
+
+                    CandidateDetail.Party = i.Party;
+
+                    CandidateDetail.Descriptions = i.Descriptions;
+
+                    break;
+                }
+            }
+
+            m_Context.StartActivity(new Intent(Application.Context, typeof(DetailActivity)));
         }
 
-        public override View GetView(int position, View convertView, ViewGroup parent)
+        public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
-            var view = convertView ?? activity.LayoutInflater.Inflate(Resource.Layout.candidate_template, parent, false);
+            View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.candidate_template, parent, false);
 
-            var firstName = view.FindViewById<TextView>(Resource.Id.candidateFirstName);
-            var secondName = view.FindViewById<TextView>(Resource.Id.candidateSecondName);
-            var thirdName = view.FindViewById<TextView>(Resource.Id.candidateThirdName);
+            var FirstName = row.FindViewById<TextView>(Resource.Id.candidateFirstName);
+            var SecondName = row.FindViewById<TextView>(Resource.Id.candidateSecondName);
+            var ThirdName = row.FindViewById<TextView>(Resource.Id.candidateThirdName);
+            var Votes = row.FindViewById<TextView>(Resource.Id.candidateVotes);
+            var Percent = row.FindViewById<TextView>(Resource.Id.candidatePercent);
+            var Photo = row.FindViewById<ImageView>(Resource.Id.candidatePhoto);
+            var CheckBox = row.FindViewById<ImageView>(Resource.Id.checkbox);
 
-            var votes = view.FindViewById<TextView>(Resource.Id.candidateVotes);
-            var percent = view.FindViewById<TextView>(Resource.Id.candidatePercent);
-
-            var photo = view.FindViewById<ImageView>(Resource.Id.candidatePhoto);
-
-            firstName.Text = candidates[position].FirstName;
-            secondName.Text = candidates[position].SecondName;
-            thirdName.Text = candidates[position].ThirdName;
-
-            votes.Text = "Голосов: " + candidates[position].Votes;
-            percent.Text = "Процент: " + candidates[position].Percent + "%";
-
-            var photoBitmap = GetImageBitmapFromUrl("https://adlibtech.ru/elections/upload_images/" + candidates[position].Image);
-            photo.SetImageBitmap(photoBitmap);
+            MyView view = new MyView(row)
+            {
+                firstName = FirstName,
+                secondName = SecondName,
+                thirdName = ThirdName,
+                votes = Votes,
+                percent = Percent,
+                photo = Photo,
+                checkbox = CheckBox
+            };
 
             return view;
         }

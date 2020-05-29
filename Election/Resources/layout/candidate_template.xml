@@ -80,12 +80,11 @@
         android:layout_gravity="center">
 
         <ImageView
-            android:id="@+id/square"
+            android:id="@id/checkbox"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/checkbox_empty" />
+            android:layout_marginRight="10dp"/>
 
 
     </RelativeLayout>
