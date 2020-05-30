@@ -2,6 +2,7 @@
 using Android.OS;
 using Android.Support.V7.App;
 using Android.Widget;
+using Android.Support.V7.Widget;
 
 using Newtonsoft.Json;
 
@@ -10,17 +11,19 @@ using Xamarin.Essentials;
 using System.Collections.Generic;
 using System.Net;
 using System.IO;
-using Android.Support.V7.Widget;
-using Android.Views;
 
 namespace Election
 {
     [Activity(Label = "@string/app_name", ScreenOrientation = Android.Content.PM.ScreenOrientation.Portrait)]
     public class MainActivity : AppCompatActivity
     {
-        List<CandidateData> listOfCandidates;
+        public static List<CandidateData> listOfCandidates;
 
         private int m_TotalVotes = 0;
+
+        private static RecyclerView m_ListData;
+        private static CustomAdapter m_Adapter;
+        private static RecyclerView.LayoutManager m_LayoutManager;
 
         protected override void OnCreate(Bundle savedInstanceState)
         {
@@ -33,16 +36,21 @@ namespace Election
 
             TextView textViewTotalVotes = FindViewById<TextView>(Resource.Id.totalVotes);
             textViewTotalVotes.Text += $" {m_TotalVotes}";
+        }
 
-            var listData = FindViewById<RecyclerView>(Resource.Id.recyclerView);
+        protected override void OnResume()
+        {
+            base.OnResume();
 
-            listData.AddItemDecoration(new DividerItemDecoration(listData.Context, DividerItemDecoration.Vertical));
+            m_ListData = FindViewById<RecyclerView>(Resource.Id.recyclerView);
 
-            RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
-            listData.SetLayoutManager(layoutManager);
+            m_ListData.AddItemDecoration(new DividerItemDecoration(m_ListData.Context, DividerItemDecoration.Vertical));
 
-            var adapter = new CustomAdapter(this, listOfCandidates, listData);
-            listData.SetAdapter(adapter);
+            m_LayoutManager = new LinearLayoutManager(this);
+            m_ListData.SetLayoutManager(m_LayoutManager);
+
+            m_Adapter = new CustomAdapter(this, listOfCandidates, m_ListData);
+            m_ListData.SetAdapter(m_Adapter);
         }
 
         private List<CandidateData> LoadData()
@@ -82,6 +90,8 @@ namespace Election
             foreach (var i in result)
             {
                 i.Percent = (int)(i.Votes / m_TotalVotes * 100.0f);
+
+                i.IsVoiceSent = 0;
             }
 
             response.Close();

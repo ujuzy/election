@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Android.Widget;
+using Newtonsoft.Json;
 
 namespace Election
 {
@@ -32,5 +33,8 @@ namespace Election
         public float Votes { get; set; }
 
         public int Percent { get; set; }
+
+        //0 - голоса нет, 1 - голос есть, 2 - предыдущий кандидат
+        public int IsVoiceSent { get; set; }
     }
 }

@@ -20,7 +20,6 @@ namespace Election
         public MyView(View view) : base(view)
         {
             mainView = view;
-
         }
     }
 }

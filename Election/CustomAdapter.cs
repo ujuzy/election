@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Net;
+
 using Android.App;
 using Android.Content;
 using Android.Graphics;
@@ -40,10 +41,47 @@ namespace Election
             myHolder.votes.Text = "Голосов: " + m_Candidates[position].Votes;
             myHolder.percent.Text = "Процент: " + m_Candidates[position].Percent + "%";
             myHolder.photo.SetImageBitmap(GetImageBitmapFromUrl("https://adlibtech.ru/elections/upload_images/" + m_Candidates[position].Image));
-            myHolder.checkbox.SetImageResource(Resource.Drawable.checkbox_empty);
+
+            if (m_Candidates[position].IsVoiceSent == 1)
+            {
+                myHolder.checkbox.SetImageResource(Resource.Drawable.checkbox_full);
+            }
+            else
+            {
+                myHolder.checkbox.SetImageResource(Resource.Drawable.checkbox_empty);
+            }
 
             myHolder.mainView.Click -= Candidate_Click;
             myHolder.mainView.Click += Candidate_Click;
+
+            myHolder.checkbox.Click += (sender, e) =>
+            {
+                int id = (int)((ImageButton)sender).GetTag(Resource.Id.checkbox);
+
+                int previousCandidate;
+
+                foreach (var i in m_Candidates)
+                {
+                    if (i.IsVoiceSent == 1)
+                    {
+                        previousCandidate = i.Id;
+                        i.IsVoiceSent = 2;
+
+                        break;
+                    }
+                }
+
+                m_Candidates[position].IsVoiceSent = 1;
+
+                foreach (var i in m_Candidates)
+                {
+                    Console.WriteLine($"{i.SecondName} - {i.IsVoiceSent}");
+                }
+
+                m_Context.StartActivity(new Android.Content.Intent(Application.Context, typeof(VotingActivity)));
+
+                Toast.MakeText(m_Context, $"Вы проголосовали за {m_Candidates[position].SecondName} {m_Candidates[position].FirstName} {m_Candidates[position].ThirdName}", ToastLength.Short).Show();
+            };
         }
 
         private void Candidate_Click(object sender, EventArgs e)

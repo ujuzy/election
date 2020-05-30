@@ -1,9 +1,15 @@
 ﻿<Properties StartupConfiguration="{09B04830-3DED-42F5-9274-C13D946A70E2}|Default">
   <MonoDevelop.Ide.ItemProperties.Election AndroidDesignerPreferredTheme="AppTheme" AndroidDesignerPreferredDevice="pixel_2_xl" PreferredExecutionTarget="Android.711KPZK0818901" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Election/Resources/layout/candidate_template.xml">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Election/VotingActivity.cs">
     <Files>
-      <File FileName="Election/MainActivity.cs" Line="38" Column="1" />
-      <File FileName="Election/Resources/layout/candidate_template.xml" Line="92" Column="16" />
+      <File FileName="Election/MainActivity.cs" Line="65" Column="10" />
+      <File FileName="Election/CustomAdapter.cs" Line="99" Column="1" />
+      <File FileName="Election/MyView.cs" Line="1" Column="1" />
+      <File FileName="Election/CandidateData.cs" Line="37" Column="66" />
+      <File FileName="Election/Resources/layout/activity_voting.xml" Line="14" Column="12" />
+      <File FileName="Election/Resources/layout/activity_main.xml" Line="3" Column="2" />
+      <File FileName="Election/SplashActivity.cs" Line="29" Column="13" />
+      <File FileName="Election/VotingActivity.cs" Line="21" Column="13" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -13,10 +19,9 @@
               <Node name="Properties" expanded="True" />
               <Node name="Resources" expanded="True">
                 <Node name="drawable" expanded="True" />
-                <Node name="layout" expanded="True">
-                  <Node name="candidate_template.xml" selected="True" />
-                </Node>
+                <Node name="layout" expanded="True" />
               </Node>
+              <Node name="VotingActivity.cs" selected="True" />
             </Node>
           </Node>
         </State>
