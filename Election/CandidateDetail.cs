@@ -12,6 +12,8 @@
 
         public static string Party { get; set; }
 
+        public static string Web { get; set; }
+
         public static string Descriptions { get; set; }
 
         public static string Image { get; set; }

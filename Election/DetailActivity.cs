@@ -29,6 +29,9 @@ namespace Election
             TextView party = FindViewById<TextView>(Resource.Id.party);
             party.Text = "Партия: " + CandidateDetail.Party;
 
+            TextView web = FindViewById<TextView>(Resource.Id.web);
+            web.Text = "Веб-сайт: " + CandidateDetail.Web;
+
             TextView description = FindViewById<TextView>(Resource.Id.description);
             description.Text = CandidateDetail.Descriptions;
 

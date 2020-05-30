@@ -103,6 +103,8 @@ namespace Election
 
                     CandidateDetail.Party = i.Party;
 
+                    CandidateDetail.Web = i.Web;
+
                     CandidateDetail.Descriptions = i.Descriptions;
 
                     break;

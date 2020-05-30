@@ -3841,10 +3841,13 @@ namespace Election
 			public const int visible = 2131230923;
 			
 			// aapt resource value: 0x7F0800CC
-			public const int withText = 2131230924;
+			public const int web = 2131230924;
 			
 			// aapt resource value: 0x7F0800CD
-			public const int wrap_content = 2131230925;
+			public const int withText = 2131230925;
+			
+			// aapt resource value: 0x7F0800CE
+			public const int wrap_content = 2131230926;
 			
 			static Id()
 			{
