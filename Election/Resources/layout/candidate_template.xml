@@ -86,6 +86,7 @@
             android:layout_height="50dp"
             android:layout_gravity="center"
             android:layout_marginRight="10dp"
+            android:background="@android:color/white"
             android:src="@drawable/checkbox_empty"/>
 
 

@@ -56,29 +56,16 @@ namespace Election
 
             myHolder.checkbox.Click += (sender, e) =>
             {
-                int id = (int)((ImageButton)sender).GetTag(Resource.Id.checkbox);
+                int previous = m_Candidates.FindIndex(candidate => candidate.IsVoiceSent == 1);
 
-                int previousCandidate;
-
-                foreach (var i in m_Candidates)
+                if (previous != -1)
                 {
-                    if (i.IsVoiceSent == 1)
-                    {
-                        previousCandidate = i.Id;
-                        i.IsVoiceSent = 2;
-
-                        break;
-                    }
+                    m_Candidates[previous].IsVoiceSent = 2;
                 }
 
                 m_Candidates[position].IsVoiceSent = 1;
 
-                foreach (var i in m_Candidates)
-                {
-                    Console.WriteLine($"{i.SecondName} - {i.IsVoiceSent}");
-                }
-
-                m_Context.StartActivity(new Android.Content.Intent(Application.Context, typeof(VotingActivity)));
+                m_Context.StartActivity(new Intent(Application.Context, typeof(VotingActivity)));
 
                 Toast.MakeText(m_Context, $"Вы проголосовали за {m_Candidates[position].SecondName} {m_Candidates[position].FirstName} {m_Candidates[position].ThirdName}", ToastLength.Short).Show();
             };

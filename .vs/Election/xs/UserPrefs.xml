@@ -1,8 +1,11 @@
 ﻿<Properties StartupConfiguration="{09B04830-3DED-42F5-9274-C13D946A70E2}|Default">
-  <MonoDevelop.Ide.ItemProperties.Election AndroidDesignerPreferredTheme="AppTheme" AndroidDesignerPreferredDevice="pixel_2_xl" PreferredExecutionTarget="Android.711KPZK0818901" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="Election/DetailActivity.cs">
+  <MonoDevelop.Ide.ItemProperties.Election AndroidDesignerPreferredTheme="AppTheme" AndroidDesignerPreferredDevice="pixel_2_xl" PreferredExecutionTarget="Android.SelectDevice" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Election/MainActivity.cs">
     <Files>
-      <File FileName="Election/DetailActivity.cs" Line="33" Column="59" />
+      <File FileName="Election/VotingActivity.cs" Line="38" Column="14" />
+      <File FileName="Election/CustomAdapter.cs" Line="65" Column="1" />
+      <File FileName="Election/Resources/layout/candidate_template.xml" Line="87" Column="44" />
+      <File FileName="Election/MainActivity.cs" Line="1" Column="1" />
     </Files>
     <Pads>
       <Pad Id="ProjectPad">
@@ -14,7 +17,7 @@
                 <Node name="drawable" expanded="True" />
                 <Node name="layout" expanded="True" />
               </Node>
-              <Node name="DetailActivity.cs" selected="True" />
+              <Node name="MainActivity.cs" selected="True" />
             </Node>
           </Node>
         </State>

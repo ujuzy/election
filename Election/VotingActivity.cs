@@ -32,11 +32,11 @@ namespace Election
             int previousCandidate, currentCandidate;
             GetCurrentAndPreviousCandidate(out currentCandidate, out previousCandidate);
 
-            int index = MainActivity.listOfCandidates.FindIndex(x => x.IsVoiceSent == 2);
+            int previousCandidateIndex = MainActivity.listOfCandidates.FindIndex(candidate => candidate.Id == previousCandidate);
 
-            if (index != -1)
+            if (previousCandidateIndex != -1)
             {
-                MainActivity.listOfCandidates[index].IsVoiceSent = 0;
+                MainActivity.listOfCandidates[previousCandidateIndex].IsVoiceSent = 0;
             }
 
             var request = (HttpWebRequest)WebRequest.Create("https://adlibtech.ru/elections/api/getcandidates.php");
@@ -59,17 +59,17 @@ namespace Election
 
         private void GetCurrentAndPreviousCandidate(out int current, out int previous)
         {
-            current = MainActivity.listOfCandidates[MainActivity.listOfCandidates.FindIndex(x => x.IsVoiceSent == 1)].Id;
+            current = MainActivity.listOfCandidates[MainActivity.listOfCandidates.FindIndex(candidate => candidate.IsVoiceSent == 1)].Id;
 
-            int index = MainActivity.listOfCandidates.FindIndex(x => x.IsVoiceSent == 2);
+            previous = MainActivity.listOfCandidates.FindIndex(candidate => candidate.IsVoiceSent == 2);
 
-            if (index == -1)
+            if (previous == -1)
             {
                 previous = 0;
             }
             else
             {
-                previous = MainActivity.listOfCandidates[index].Id;
+                previous = MainActivity.listOfCandidates[previous].Id;
             }
         }
     }

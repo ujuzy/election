@@ -22,7 +22,6 @@ namespace Election
         private int m_TotalVotes = 0;
 
         private static RecyclerView m_ListData;
-        private static CustomAdapter m_Adapter;
         private static RecyclerView.LayoutManager m_LayoutManager;
 
         protected override void OnCreate(Bundle savedInstanceState)
@@ -36,21 +35,21 @@ namespace Election
 
             TextView textViewTotalVotes = FindViewById<TextView>(Resource.Id.totalVotes);
             textViewTotalVotes.Text += $" {m_TotalVotes}";
-        }
-
-        protected override void OnResume()
-        {
-            base.OnResume();
 
             m_ListData = FindViewById<RecyclerView>(Resource.Id.recyclerView);
 
             m_ListData.AddItemDecoration(new DividerItemDecoration(m_ListData.Context, DividerItemDecoration.Vertical));
 
             m_LayoutManager = new LinearLayoutManager(this);
-            m_ListData.SetLayoutManager(m_LayoutManager);
+            m_ListData.SetLayoutManager(m_LayoutManager); 
+        }
 
-            m_Adapter = new CustomAdapter(this, listOfCandidates, m_ListData);
-            m_ListData.SetAdapter(m_Adapter);
+        protected override void OnResume()
+        {
+            base.OnResume();
+
+            var adapter = new CustomAdapter(this, listOfCandidates, m_ListData);
+            m_ListData.SetAdapter(adapter);
         }
 
         private List<CandidateData> LoadData()
