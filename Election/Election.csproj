@@ -60,16 +60,16 @@
     <Reference Include="System.Numerics.Vectors" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="CandidateData.cs" />
-    <Compile Include="CustomAdapter.cs" />
-    <Compile Include="SplashActivity.cs" />
-    <Compile Include="DetailActivity.cs" />
-    <Compile Include="CandidateDetail.cs" />
-    <Compile Include="MyView.cs" />
-    <Compile Include="ImageService.cs" />
+    <Compile Include="Controller\CustomAdapter.cs" />
+    <Compile Include="Controller\ImageService.cs" />
+    <Compile Include="Model\CandidateData.cs" />
+    <Compile Include="Model\CandidateDetail.cs" />
+    <Compile Include="Model\DetailActivity.cs" />
+    <Compile Include="Model\MainActivity.cs" />
+    <Compile Include="Model\SplashActivity.cs" />
+    <Compile Include="View\MyView.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
