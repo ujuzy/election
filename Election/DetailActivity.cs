@@ -1,5 +1,5 @@
 ﻿using System.Net;
-
+using System.Threading.Tasks;
 using Android.App;
 using Android.Graphics;
 using Android.OS;
@@ -23,8 +23,14 @@ namespace Election
             firstAndThirdName.Text = CandidateDetail.FirstName + " " + CandidateDetail.ThirdName;
 
             ImageView photo = FindViewById<ImageView>(Resource.Id.photo);
-            var photoBitmap = GetImageBitmapFromUrl("https://adlibtech.ru/elections/upload_images/" + CandidateDetail.Image);
-            photo.SetImageBitmap(photoBitmap);
+
+            Task<Bitmap> outerTask = CustomAdapter.GetImageBitmapFromUrlAsync("https://adlibtech.ru/elections/upload_images/" + CandidateDetail.Image);
+            outerTask.ContinueWith(task =>
+            {
+                Bitmap imageBitmap = task.Result;
+
+                photo.SetImageBitmap(imageBitmap);
+            });
 
             TextView party = FindViewById<TextView>(Resource.Id.party);
             party.Text = "Партия: " + CandidateDetail.Party;
@@ -41,22 +47,6 @@ namespace Election
             {
                 OnBackPressed();
             };
-        }
-
-        private Bitmap GetImageBitmapFromUrl(string url)
-        {
-            Bitmap imageBitmap = null;
-
-            using (var webClient = new WebClient())
-            {
-                var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0)
-                {
-                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
-                }
-            }
-
-            return imageBitmap;
         }
     }
 }

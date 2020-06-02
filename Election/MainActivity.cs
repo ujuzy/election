@@ -49,6 +49,7 @@ namespace Election
             base.OnResume();
 
             var adapter = new CustomAdapter(this, listOfCandidates, m_ListData);
+
             m_ListData.SetAdapter(adapter);
         }
 

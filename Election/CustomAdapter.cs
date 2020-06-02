@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net;
+using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
@@ -8,6 +10,8 @@ using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
+
+using Xamarin.Essentials;
 
 namespace Election
 {
@@ -40,7 +44,14 @@ namespace Election
             myHolder.thirdName.Text = m_Candidates[position].ThirdName;
             myHolder.votes.Text = "Голосов: " + m_Candidates[position].Votes;
             myHolder.percent.Text = "Процент: " + m_Candidates[position].Percent + "%";
-            myHolder.photo.SetImageBitmap(GetImageBitmapFromUrl("https://adlibtech.ru/elections/upload_images/" + m_Candidates[position].Image));
+
+            Task<Bitmap> outerTask = GetImageBitmapFromUrlAsync("https://adlibtech.ru/elections/upload_images/" + m_Candidates[position].Image);
+            outerTask.ContinueWith(task =>
+            {
+                Bitmap imageBitmap = task.Result;
+
+                myHolder.photo.SetImageBitmap(imageBitmap);
+            });
 
             if (m_Candidates[position].IsVoiceSent == 1)
             {
@@ -65,7 +76,7 @@ namespace Election
 
                 m_Candidates[position].IsVoiceSent = 1;
 
-                m_Context.StartActivity(new Intent(Application.Context, typeof(VotingActivity)));
+                SendVoice();
 
                 Toast.MakeText(m_Context, $"Вы проголосовали за {m_Candidates[position].SecondName} {m_Candidates[position].FirstName} {m_Candidates[position].ThirdName}", ToastLength.Short).Show();
             };
@@ -127,7 +138,7 @@ namespace Election
             return view;
         }
 
-        private Bitmap GetImageBitmapFromUrl(string url)
+        private static Bitmap GetImageBitmapFromUrl(string url)
         {
             Bitmap imageBitmap = null;
 
@@ -141,6 +152,59 @@ namespace Election
             }
 
             return imageBitmap;
+        }
+
+        public static async Task<Bitmap> GetImageBitmapFromUrlAsync(string url)
+        {
+            var image = await Task.FromResult<Bitmap>(GetImageBitmapFromUrl(url));
+
+            return image;
+        }
+
+        void SendVoice()
+        {
+            int previousCandidate, currentCandidate;
+            GetCurrentAndPreviousCandidate(out currentCandidate, out previousCandidate);
+
+            int previousCandidateIndex = MainActivity.listOfCandidates.FindIndex(candidate => candidate.Id == previousCandidate);
+
+            if (previousCandidateIndex != -1)
+            {
+                MainActivity.listOfCandidates[previousCandidateIndex].IsVoiceSent = 0;
+            }
+
+            var request = (HttpWebRequest)WebRequest.Create("https://adlibtech.ru/elections/api/getcandidates.php");
+            request.Method = "POST";
+            request.ContentType = "application/x-www-form-urlencoded";
+
+            string deviceName = DeviceInfo.Name;
+            string deviceId = DeviceInfo.Model;
+
+            string postRequest = "device_id=" + deviceId + "&device_name=" + deviceName + "&candidate_id=" + currentCandidate.ToString() + "&last_id=" + previousCandidate.ToString();
+            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(postRequest);
+
+            using (Stream dataStream = request.GetRequestStream())
+            {
+                dataStream.Write(byteArray, 0, byteArray.Length);
+            }
+
+            NotifyDataSetChanged();
+        }
+
+        private void GetCurrentAndPreviousCandidate(out int current, out int previous)
+        {
+            current = MainActivity.listOfCandidates[MainActivity.listOfCandidates.FindIndex(candidate => candidate.IsVoiceSent == 1)].Id;
+
+            previous = MainActivity.listOfCandidates.FindIndex(candidate => candidate.IsVoiceSent == 2);
+
+            if (previous == -1)
+            {
+                previous = 0;
+            }
+            else
+            {
+                previous = MainActivity.listOfCandidates[previous].Id;
+            }
         }
     }
 }

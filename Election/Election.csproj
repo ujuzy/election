@@ -69,7 +69,6 @@
     <Compile Include="DetailActivity.cs" />
     <Compile Include="CandidateDetail.cs" />
     <Compile Include="MyView.cs" />
-    <Compile Include="VotingActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
