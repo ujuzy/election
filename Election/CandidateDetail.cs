@@ -1,4 +1,6 @@
-﻿namespace Election
+﻿using Android.Graphics;
+
+namespace Election
 {
     public static class CandidateDetail
     {
@@ -16,6 +18,6 @@
 
         public static string Descriptions { get; set; }
 
-        public static string Image { get; set; }
+        public static Bitmap Image { get; set; }
     }
 }

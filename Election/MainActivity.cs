@@ -92,6 +92,8 @@ namespace Election
                 i.Percent = (int)(i.Votes / m_TotalVotes * 100.0f);
 
                 i.IsVoiceSent = 0;
+
+                i.Image = ImageService.GetImageBitmapFromUrlAsync("https://adlibtech.ru/elections/upload_images/" + i.ImageUrl).Result;
             }
 
             response.Close();

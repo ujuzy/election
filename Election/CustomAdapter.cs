@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using Android.App;
 using Android.Content;
-using Android.Graphics;
 using Android.Support.V7.Widget;
 using Android.Views;
 using Android.Widget;
@@ -44,14 +43,7 @@ namespace Election
             myHolder.thirdName.Text = m_Candidates[position].ThirdName;
             myHolder.votes.Text = "Голосов: " + m_Candidates[position].Votes;
             myHolder.percent.Text = "Процент: " + m_Candidates[position].Percent + "%";
-
-            Task<Bitmap> outerTask = GetImageBitmapFromUrlAsync("https://adlibtech.ru/elections/upload_images/" + m_Candidates[position].Image);
-            outerTask.ContinueWith(task =>
-            {
-                Bitmap imageBitmap = task.Result;
-
-                myHolder.photo.SetImageBitmap(imageBitmap);
-            });
+            myHolder.photo.SetImageBitmap(m_Candidates[position].Image);
 
             if (m_Candidates[position].IsVoiceSent == 1)
             {
@@ -65,21 +57,9 @@ namespace Election
             myHolder.mainView.Click -= Candidate_Click;
             myHolder.mainView.Click += Candidate_Click;
 
-            myHolder.checkbox.Click += (sender, e) =>
-            {
-                int previous = m_Candidates.FindIndex(candidate => candidate.IsVoiceSent == 1);
-
-                if (previous != -1)
-                {
-                    m_Candidates[previous].IsVoiceSent = 2;
-                }
-
-                m_Candidates[position].IsVoiceSent = 1;
-
-                SendVoice();
-
-                Toast.MakeText(m_Context, $"Вы проголосовали за {m_Candidates[position].SecondName} {m_Candidates[position].FirstName} {m_Candidates[position].ThirdName}", ToastLength.Short).Show();
-            };
+            myHolder.checkbox.SetTag(Resource.Id.checkbox, position);
+            myHolder.checkbox.Click -= CheckBox_Click;
+            myHolder.checkbox.Click += CheckBox_Click;
         }
 
         private void Candidate_Click(object sender, EventArgs e)
@@ -112,6 +92,23 @@ namespace Election
             m_Context.StartActivity(new Intent(Application.Context, typeof(DetailActivity)));
         }
 
+        private void CheckBox_Click(object sender, EventArgs e)
+        {
+            int position = (int)((ImageButton)sender).GetTag(Resource.Id.checkbox);
+            int previous = m_Candidates.FindIndex(candidate => candidate.IsVoiceSent == 1);
+
+            if (previous != -1)
+            {
+                m_Candidates[previous].IsVoiceSent = 2;
+            }
+
+            m_Candidates[position].IsVoiceSent = 1;
+
+            SendVoice();
+
+            Toast.MakeText(m_Context, $"Вы проголосовали за {m_Candidates[position].SecondName} {m_Candidates[position].FirstName} {m_Candidates[position].ThirdName}", ToastLength.Short).Show();
+        }
+
         public override RecyclerView.ViewHolder OnCreateViewHolder(ViewGroup parent, int viewType)
         {
             View row = LayoutInflater.From(parent.Context).Inflate(Resource.Layout.candidate_template, parent, false);
@@ -138,29 +135,6 @@ namespace Election
             return view;
         }
 
-        private static Bitmap GetImageBitmapFromUrl(string url)
-        {
-            Bitmap imageBitmap = null;
-
-            using (var webClient = new WebClient())
-            {
-                var imageBytes = webClient.DownloadData(url);
-                if (imageBytes != null && imageBytes.Length > 0)
-                {
-                    imageBitmap = BitmapFactory.DecodeByteArray(imageBytes, 0, imageBytes.Length);
-                }
-            }
-
-            return imageBitmap;
-        }
-
-        public static async Task<Bitmap> GetImageBitmapFromUrlAsync(string url)
-        {
-            var image = await Task.FromResult<Bitmap>(GetImageBitmapFromUrl(url));
-
-            return image;
-        }
-
         void SendVoice()
         {
             int previousCandidate, currentCandidate;
@@ -173,26 +147,15 @@ namespace Election
                 MainActivity.listOfCandidates[previousCandidateIndex].IsVoiceSent = 0;
             }
 
-            var request = (HttpWebRequest)WebRequest.Create("https://adlibtech.ru/elections/api/getcandidates.php");
-            request.Method = "POST";
-            request.ContentType = "application/x-www-form-urlencoded";
-
-            string deviceName = DeviceInfo.Name;
-            string deviceId = DeviceInfo.Model;
-
-            string postRequest = "device_id=" + deviceId + "&device_name=" + deviceName + "&candidate_id=" + currentCandidate.ToString() + "&last_id=" + previousCandidate.ToString();
-            byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(postRequest);
-
-            using (Stream dataStream = request.GetRequestStream())
-            {
-                dataStream.Write(byteArray, 0, byteArray.Length);
-            }
+            SendRequestAsync(currentCandidate, previousCandidate);
 
             NotifyDataSetChanged();
         }
 
         private void GetCurrentAndPreviousCandidate(out int current, out int previous)
         {
+            Console.WriteLine("GetCurrentAndPreviousCandidate");
+
             current = MainActivity.listOfCandidates[MainActivity.listOfCandidates.FindIndex(candidate => candidate.IsVoiceSent == 1)].Id;
 
             previous = MainActivity.listOfCandidates.FindIndex(candidate => candidate.IsVoiceSent == 2);
@@ -205,6 +168,27 @@ namespace Election
             {
                 previous = MainActivity.listOfCandidates[previous].Id;
             }
+        }
+
+        private async void SendRequestAsync(int current, int previous)
+        {
+            await Task.Run(() =>
+            {
+                var request = (HttpWebRequest)WebRequest.Create("https://adlibtech.ru/elections/api/getcandidates.php");
+                request.Method = "POST";
+                request.ContentType = "application/x-www-form-urlencoded";
+
+                string deviceName = DeviceInfo.Name;
+                string deviceId = DeviceInfo.Model;
+
+                string postRequest = "device_id=" + deviceId + "&device_name=" + deviceName + "&candidate_id=" + current.ToString() + "&last_id=" + previous.ToString();
+                byte[] byteArray = System.Text.Encoding.UTF8.GetBytes(postRequest);
+
+                using (Stream dataStream = request.GetRequestStream())
+                {
+                    dataStream.Write(byteArray, 0, byteArray.Length);
+                }
+            });
         }
     }
 }

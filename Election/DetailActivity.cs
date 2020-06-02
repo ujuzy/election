@@ -23,14 +23,7 @@ namespace Election
             firstAndThirdName.Text = CandidateDetail.FirstName + " " + CandidateDetail.ThirdName;
 
             ImageView photo = FindViewById<ImageView>(Resource.Id.photo);
-
-            Task<Bitmap> outerTask = CustomAdapter.GetImageBitmapFromUrlAsync("https://adlibtech.ru/elections/upload_images/" + CandidateDetail.Image);
-            outerTask.ContinueWith(task =>
-            {
-                Bitmap imageBitmap = task.Result;
-
-                photo.SetImageBitmap(imageBitmap);
-            });
+            photo.SetImageBitmap(CandidateDetail.Image);
 
             TextView party = FindViewById<TextView>(Resource.Id.party);
             party.Text = "Партия: " + CandidateDetail.Party;

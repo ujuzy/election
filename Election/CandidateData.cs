@@ -1,4 +1,5 @@
-﻿using Android.Widget;
+﻿using Android.Graphics;
+using Android.Widget;
 using Newtonsoft.Json;
 
 namespace Election
@@ -27,7 +28,7 @@ namespace Election
         public string Web { get; set; }
 
         [JsonProperty("image")]
-        public string Image { get; set; }
+        public string ImageUrl { get; set; }
 
         [JsonProperty("votes")]
         public float Votes { get; set; }
@@ -36,5 +37,7 @@ namespace Election
 
         //0 - голоса нет, 1 - голос есть, 2 - предыдущий кандидат
         public int IsVoiceSent { get; set; }
+
+        public Bitmap Image { get; set; }
     }
 }
